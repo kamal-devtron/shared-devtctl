@@ -1,0 +1,28 @@
+id: 6
+orch:
+  workflowId: 390
+  url: "devtron-6.devtron.info"
+  configmap:
+      dashboardhost: "shared-dt-dashboard-shared-dcd-6-service.devtroncd-6"    
+      casbinurl: "casbin-enterprise-shared-dcd-6-service.devtroncd-6:9000"
+      helmclienturl: "shared-dt-kubelink-shared-dcd-6-service.devtroncd-6:50051"
+      imagescanner: "http://devtron-1.info"
+      lensurl: "http://devtron-1.info"
+      sentry_env: "bharatpe"   #Name of enterprise 
+      ci_runner_image: "quay.io/devtron/test:94c45aba-23-2249"
+      event_url: "http://devtron-1.info"
+      external_ci_webhook_url: "http://devtron-6.devtron.info/orchestrator/webhook/ext-ci"
+      nats: "nats://devtron-nats.devtroncd-6:4222"
+      namespace: "devtroncd-6"
+      ## For run in environment
+dashboard:
+  workflowId: 391
+kubelink:
+  workflowId: 392
+  nats: "nats://devtron-nats.devtroncd-6:4222"
+  database: orchestrator_6
+kubewatch:
+  workflowId: 393
+casbin:
+  workflowId: 365
+  database: "casbin_6"

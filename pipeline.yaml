@@ -1,0 +1,413 @@
+---
+# Source: shared/templates/pipeline.yaml
+specVersion: v1
+environmentId: 66
+cdPipelineConfigs:
+  - appId: 72                 #Orchestrator
+    appWorkflowId: 390
+    triggerType: AUTOMATIC  #Manual or Automatic
+    deploymentStrategy: ROLLING #ROLLING/BLUE-GREEN/RECREATE
+    deploymentType: HELM #GitOPS
+    chartRefVersion: 4.18.0
+    deploymentTemplateOverrideJson: '[
+  {
+        "op": "replace",
+        "path": "/imagePullSecrets",
+        "value": [
+            "devtron-image-pull"
+        ]
+    },
+  {
+        "op": "replace",
+        "path": "/ingress",
+        "value": {
+            "annotations": {
+                "nginx.ingress.kubernetes.io/app-root": "/dashboard",
+                "nginx.ingress.kubernetes.io/ssl-redirect": "false"
+            },
+            "className": "nginx",
+            "enabled": true,
+            "hosts": [
+                {
+                    "host": "devtron-6.devtron.info",
+                    "pathType": "ImplementationSpecific",
+                    "paths": [
+                        "/orchestrator"
+                    ]
+                },
+                {
+                    "host": "devtron-6.devtron.info",
+                    "pathType": "ImplementationSpecific",
+                    "paths": [
+                        "/dashboard"
+                    ]
+                }
+            ]
+        }
+    }
+]'  
+      
+    newConfigs:
+      - name: orchestrator-cm
+        keyValue:
+          - key: ACD_CM
+            value: argocd-cm
+          - key: ACD_NAMESPACE
+            value: devtroncd
+          - key: ACD_USERNAME
+            value: admin
+          - key: APP
+            value: orchestrator
+          - key: APP_SYNC_IMAGE
+            value: quay.io/devtron/chart-sync:04a03402-132-13478
+          - key: AUTH_ENABLED
+            value: "true"
+          - key: BLOB_STORAGE_ENABLED
+            value: "true"
+          - key: BLOB_STORAGE_PROVIDER
+            value: S3
+          - key: CASBIN_CLIENT_URL
+            value: casbin-enterprise-shared-dcd-6-service.devtroncd-6:9000
+          - key: CD_ENVIRONMENT
+            value: DEV
+          - key: CD_HELM_PIPELINE_STATUS_CRON_TIME
+            value: "*/1 * * * *"
+          - key: CD_HOST
+            value: argocd-server.devtroncd
+          - key: CD_LIMIT_CI_CPU
+            value: 1000m
+          - key: CD_LIMIT_CI_MEM
+            value: 2G
+          - key: CD_NAMESPACE
+            value: devtroncd
+          - key: CD_NODE_LABEL_SELECTOR
+            value: purpose=ci
+          - key: CD_NODE_TAINTS_KEY
+            value: dedicated
+          - key: CD_PIPELINE_STATUS_CRON_TIME
+            value: "*/10 * * * *"
+          - key: CD_PORT
+            value: "80"
+          - key: CD_REQ_CI_CPU
+            value: 200m
+          - key: CD_REQ_CI_MEM
+            value: 1G
+          - key: CExpirationTime
+            value: "600"
+          - key: CI_ARTIFACT_LOCATION_FORMAT
+            value: "%d/%d.zip"
+          - key: CI_NODE_LABEL_SELECTOR
+            value: purpose=ci
+          - key: CI_NODE_TAINTS_KEY
+            value: dedicated
+          - key: CI_NODE_TAINTS_VALUE
+            value: ci
+          - key: CLIENT_ID
+            value: client-2
+          - key: CM_CHANGED
+            value: "true"
+          - key: DASHBOARD_HOST
+            value: shared-dt-dashboard-shared-dcd-6-service.devtroncd-6
+          - key: DASHBOARD_PORT
+            value: "80"
+          - key: DEFAULT_ARTIFACT_KEY_LOCATION
+            value: ""
+          - key: DEFAULT_BUILD_LOGS_BUCKET
+            value: devtron-staging-log
+          - key: DEFAULT_BUILD_LOGS_KEY_PREFIX
+            value: ""
+          - key: DEFAULT_CD_ARTIFACT_KEY_LOCATION
+            value: ""
+          - key: DEFAULT_CD_LOGS_BUCKET_REGION
+            value: ""
+          - key: DEFAULT_CD_NAMESPACE
+            value: devtron-cd
+          - key: DEFAULT_CI_IMAGE
+            value: http://devtron-1.info
+          - key: DEFAULT_TIMEOUT
+            value: "3600"
+          - key: DEVTRON_INSTALLATION_TYPE
+            value: enterprise
+          - key: DEVTRON_SECRET_NAME
+            value: orchestrator-secret-72
+          - key: DEX_CID
+            value: example-app
+          - key: DEX_CSTOREKEY
+            value: CStoreKey
+          - key: DEX_HOST
+            value: "http://argocd-dex-server.devtroncd"
+          - key: DEX_JWTKEY
+            value: DexJwtKey
+          - key: DEX_PORT
+            value: "5556"
+          - key: DEX_RURL
+            value: http://argocd-dex-server.devtroncd:8080/callback
+          - key: DEX_SECRET
+            value: ZXhhbXBsZS1hcHAtc2VjcmV0
+          - key: DEX_URL
+            value: http://argocd-dex-server.devtroncd:5556/dex
+          - key: DSN
+            value: https://0e57adc987494c3f99c56e8287475c20@sentry.io/1887xxx
+          - key: ECR_REPO_NAME_PREFIX
+            value: devtron/
+          - key: ENABLE_BUILD_CONTEXT
+            value: "true"
+          - key: ENFORCER_CACHE
+            value: "true"
+          - key: ENFORCER_CACHE_EXPIRATION_IN_SEC
+            value: "432000"
+          - key: ENFORCER_MAX_BATCH_SIZE
+            value: "1"
+          - key: EVENT_URL
+            value: http://devtron-1.info
+          - key: EXPOSE_CD_METRICS
+            value: "true"
+          - key: EXPOSE_CI_METRICS
+            value: "true"
+          - key: EXTERNAL_CI_WEB_HOOK_URL
+            value: ""
+          - key: FORCE_SECURITY_SCANNING
+            value: "false"
+          - key: GITOPS_REPO_PREFIX
+            value: devtron
+          - key: GIT_SENSOR_PROTOCOL
+            value: GRPC
+          - key: GIT_SENSOR_URL
+            value: git-sensor-service.devtroncd:90
+          - key: GIT_WORKING_DIRECTORY
+            value: /tmp/gitops/
+          - key: GOCD_PASSWORD
+            value: NA
+          - key: GOCD_TOKEN
+            value: NA
+          - key: GOCD_URL
+            value: http://gocd-server.gocd:8153/go/
+          - key: GOCD_USERNAME
+            value: NA
+          - key: GRAFANA_ORG_ID
+            value: "2"
+          - key: GRAFANA_URL
+            value: ""
+          - key: HEARTBEAT_CRON_EXPR
+            value: 0 0/6 * * *
+          - key: HELM_CLIENT_URL
+            value: shared-dt-kubelink-shared-dcd-6-service.devtroncd-6:50051
+          - key: IMAGE_RETRY_COUNT
+            value: "0"
+          - key: IMAGE_RETRY_INTERVAL
+            value: "5"
+          - key: IMAGE_SCANNER_ENDPOINT
+            value: http://devtron-1.info
+          - key: IS_INTERNAL_USE
+            value: "false"
+          - key: JwtExpirationTime
+            value: "120"
+          - key: LENS_URL
+            value: http://devtron-1.info
+          - key: LIMIT_CI_CPU
+            value: "3"
+          - key: LIMIT_CI_MEM
+            value: 10G
+          - key: LOG_LEVEL
+            value: "0"
+          - key: MODE
+            value: PROD
+          - key: NATS_SERVER_HOST
+            value: nats://devtron-nats.devtroncd:4222
+          - key: OTEL_COLLECTOR_URL
+            value: otel.opentelemetry:4317
+          - key: PG_ADDR
+            value: postgresql-postgresql.devtroncd
+          - key: PG_DATABASE
+            value: 
+          - key: PG_EXPORT_PROM_METRICS
+            value: "true"
+          - key: PG_LOG_ALL_QUERY
+            value: "false"
+          - key: PG_LOG_QUERY
+            value: "false"
+          - key: PG_PORT
+            value: "5432"
+          - key: PG_QUERY_DUR_THRESHOLD
+            value: "40"
+          - key: PG_USER
+            value: postgres
+          - key: PIPELINE_DEGRADED_TIME
+            value: "60"
+          - key: REQ_CI_CPU
+            value: "3"
+          - key: REQ_CI_MEM
+            value: 10G
+          - key: SENTRY_ENABLED
+            value: "false"
+          - key: SENTRY_ENV
+            value: onboarding
+          - key: SUMMARY_CRON_EXPR
+            value: 0 0 * * *
+          - key: USE_CUSTOM_ENFORCER
+            value: "true"
+          - key: USE_RBAC_CREATION_V2
+            value: "true"
+          - key: CLONING_MODE
+            value: "FULL" 
+          - key: SKIP_GITOPS_VALIDATION  
+            value: "false"
+          - key: SKIP_CREATING_ECR_REPO
+            value: "false" 
+          - key: CONSUMER_CONFIG_JSON
+            value: '{"CI-COMPLETE_DURABLE-1":{"natsMsgProcessingBatchSize":8,"natsMsgBufferSize": 64,"ackWaitInSecs":3600}}'     
+
+  - appId: 12        #Casbin
+    appWorkflowId: 365
+    triggerType: MANUAL  #Manual or Automatic
+    deploymentStrategy: ROLLING #ROLLING/BLUE-GREEN/RECREATE
+    deploymentType: HELM #GITOPS HELM
+    chartRefVersion: 4.18.0
+    deploymentTemplateOverrideJson: '[
+  {
+        "op": "replace",
+        "path": "/imagePullSecrets",
+        "value": [
+            "devtron-image-pull"
+        ]
+    }
+  
+]'
+    newConfigs:
+      - name: casbin-cm
+        type: ENVIRONMENT
+        keyValue:
+          - key: PG_ADDR
+            value: postgresql-postgresql.devtroncd
+          - key: PG_USER
+            value: postgres
+          - key: PG_DATABASE
+            value: casbin_6
+          - key: PG_PORT
+            value: "5432"
+          - key: LOG_LEVEL
+            value: "-1" 
+
+
+  - appId: 75         #Kubelink
+    appWorkflowId: 392
+    triggerType: MANUAL  #Manual or Automatic
+    deploymentStrategy: ROLLING #ROLLING/BLUE-GREEN/RECREATE
+    deploymentType: HELM #GitOps HELM
+    chartRefVersion: 4.18.0
+    deploymentTemplateOverrideJson: '[
+  
+    {
+        "op": "replace",
+        "path": "/serviceAccount",
+        "value": {
+            "annotations": {},
+            "create": false,
+            "name": "devtron-6"
+        }
+    },
+    {
+		"op": "replace",
+		"path": "/ContainerPort",
+		"value": [{
+				"envoyPort": 8799,
+				"idleTimeout": "1800s",
+				"name": "devtron",
+				"port": 8080,
+        "servicemonitor": {
+            "enabled": true,
+            "interval": "30s",
+            "path": "/metrics",
+            "scheme": "http",
+            "scrapeTimeout": "3s"
+            },
+				"servicePort": 80,
+				"supportStreaming": false,
+				"useHTTP2": false
+			}
+		]
+	}
+
+
+]'
+    exsistingSecrets :
+      - name: orchestrator-secret
+        isExternal: true
+    newConfigs:
+      - name: kubelink-cm
+        keyValue:
+          - key: NATS_SERVER_HOST
+            value: {{ .Values.kubelink.nats }}    #As per enterprise name
+          - key: PG_DATABASE
+            value: {{ .Values.kubelink.database }}
+     
+
+  - appId:  78         #Kubewatch
+    appWorkflowId: 393
+    triggerType: MANUAL
+    deploymentStrategy: ROLLING
+    deploymentType: HELM
+    chartRefVersion: 4.18.0
+    deploymentTemplateOverrideJson: |
+      '[
+        {
+          "op": "replace",
+          "path": "/serviceAccount",
+          "value": {
+              "annotations": {},
+              "create": false,
+              "name": "devtron-6"
+          }
+        }
+      ]'          
+
+  - appId: 90      #dashboard
+    appWorkflowId: 391
+    triggerType: MANUAL  #Manual or Automatic
+    deploymentStrategy: ROLLING #ROLLING/BLUE-GREEN/RECREATE
+    deploymentType: HELM #GitOps HELM
+    chartRefVersion: 4.18.0
+    deploymentTemplateOverrideJson: |
+      '[
+      {
+          "op": "replace",
+          "path": "/imagePullSecrets",
+          "value": [
+              "devtron-image-pull"
+          ]
+      }
+      ]'
+   
+    newConfigs:
+      - name: dashboard-cm
+        keyValue:
+          - key: SENTRY_ENV
+            value: PRODUCTION    #As per enterprise name
+          - key: SENTRY_ENABLED
+            value: "false"
+          - key: HOTJAR_ENABLED
+            value: "false"
+          - key: POSTHOG_ENABLED
+            value: "true"
+          - key: CLUSTER_NAME
+            value: demo
+          - key: HIDE_GITOPS_OR_HELM_OPTION
+            value: "false"
+          - key: POSTHOG_TOKEN
+            value: -HcQtUlt00wrD2pWAkRYHBTMr9qo53bXL_M0nuCq1bJ
+          - key: HIDE_DISCORD
+            value: "true"
+          - key: APPLICATION_METRICS_ENABLED
+            value: "true"
+          - key: USE_V2
+            value: "true"
+          - key: HIDE_APPLICATION_GROUPS
+            value: "false" 
+          - key: ENABLE_RESTART_WORKLOAD
+            value: "true"
+          - key: ENABLE_BUILD_CONTEXT
+            value: "true"
+          - key: FORCE_SECURITY_SCANNING
+            value: "false" 
+          - key: HIDE_DEFAULT_CLUSTER
+            value: "true"
