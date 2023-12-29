@@ -143,11 +143,11 @@ cdPipelineConfigs:
           - key: DEX_RURL
             value: http://argocd-dex-server.devtroncd:8080/callback
           - key: DEX_SECRET
-            value: ZXhhbXBsZS1hcHAtc2VjcmV0
+            value: 
           - key: DEX_URL
             value: http://argocd-dex-server.devtroncd:5556/dex
           - key: DSN
-            value: https://0e57adc987494c3f99c56e8287475c20@sentry.io/1887xxx
+            value: https://
           - key: ECR_REPO_NAME_PREFIX
             value: devtron/
           - key: ENABLE_BUILD_CONTEXT
@@ -394,7 +394,7 @@ cdPipelineConfigs:
           - key: HIDE_GITOPS_OR_HELM_OPTION
             value: "false"
           - key: POSTHOG_TOKEN
-            value: -HcQtUlt00wrD2pWAkRYHBTMr9qo53bXL_M0nuCq1bJ
+            value: 
           - key: HIDE_DISCORD
             value: "true"
           - key: APPLICATION_METRICS_ENABLED
