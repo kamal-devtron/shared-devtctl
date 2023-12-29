@@ -113,7 +113,7 @@ cdPipelineConfigs:
           - key: DEFAULT_ARTIFACT_KEY_LOCATION
             value: ""
           - key: DEFAULT_BUILD_LOGS_BUCKET
-            value: devtron-staging-log
+            value: 
           - key: DEFAULT_BUILD_LOGS_KEY_PREFIX
             value: ""
           - key: DEFAULT_CD_ARTIFACT_KEY_LOCATION
@@ -143,7 +143,7 @@ cdPipelineConfigs:
           - key: DEX_RURL
             value: http://argocd-dex-server.devtroncd:8080/callback
           - key: DEX_SECRET
-            value: ZXhhbXBsZS1hcHAtc2VjcmV0
+            value: 
           - key: DEX_URL
             value: http://argocd-dex-server.devtroncd:5556/dex
           - key: DSN
@@ -380,7 +380,7 @@ cdPipelineConfigs:
           - key: HIDE_GITOPS_OR_HELM_OPTION
             value: "false"
           - key: POSTHOG_TOKEN
-            value: -HcQtUlt00wrD2pWAkRYHBTMr9qo53bXL_M0nuCq1bJ
+            value: =
           - key: HIDE_DISCORD
             value: "true"
           - key: APPLICATION_METRICS_ENABLED
